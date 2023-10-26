@@ -1,4 +1,4 @@
-from calculator import add, mul, sub
+from calculator import add, multiply, subtract
 
 
 def test_add():
@@ -8,12 +8,12 @@ def test_add():
 
 
 def test_sub():
-    assert sub(5, 2) == 3
-    assert sub(1, -1) == 2
-    assert sub(0, 0) == 0
+    assert subtract(5, 2) == 3
+    assert subtract(1, -1) == 2
+    assert subtract(0, 0) == 0
 
 
 def test_mul():
-    assert mul(2, 3) == 6
-    assert mul(-1, 4) == -4
-    assert mul(0, 5) == 0
+    assert multiply(2, 3) == 6
+    assert multiply(-1, 4) == -4
+    assert multiply(0, 5) == 0

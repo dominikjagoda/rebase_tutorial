@@ -1,1 +1,1 @@
-from .calculator import add, subtract, divide, multiply, square_root
+from .calculator import add, subtract, divide, power, multiply

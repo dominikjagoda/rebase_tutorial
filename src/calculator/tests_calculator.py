@@ -23,3 +23,9 @@ def test_square_root():
     assert square_root(4) == 2
     assert square_root(9) == 3
     assert square_root(25) == 5
+
+
+def test_square_root2():
+    assert square_root(4) == 2
+    assert square_root(9) == 3
+    assert square_root(25) == 5

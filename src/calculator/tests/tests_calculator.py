@@ -1,4 +1,4 @@
-from calculator import add, multiply, subtract
+from calculator import add, multiply, subtract, square_root
 
 
 def test_add():
@@ -17,3 +17,9 @@ def test_mul():
     assert multiply(2, 3) == 6
     assert multiply(-1, 4) == -4
     assert multiply(0, 5) == 0
+
+
+def test_square_root():
+    assert square_root(4) == 2
+    assert square_root(9) == 3
+    assert square_root(25) == 5

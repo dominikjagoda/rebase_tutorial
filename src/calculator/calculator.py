@@ -18,3 +18,11 @@ def divide(a, b):
 
 def power(a, b):
     return a**b
+
+
+def square_root(a: float) -> float:
+    """Calculate the square root of a number."""
+    if a < 0:
+        return "Error: Cannot calculate the square root of a negative number."
+
+    return a**0.5

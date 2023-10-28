@@ -1,3 +1,6 @@
+import math
+
+
 def add(a: float, b: float) -> float:
     """Add two numbers."""
     return a + b
@@ -23,3 +26,11 @@ def divide(a: float, b: float) -> float:
 def power(a: float, b: float) -> float:
     """Raise the first number to the power of the second."""
     return a**b
+
+
+def square_root(a: float) -> float:
+    """Calculate the square root of a number."""
+    if a < 0:
+        return "Error: Cannot calculate the square root of a negative number."
+
+    return math.sqrt(a)

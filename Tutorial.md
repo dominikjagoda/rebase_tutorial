@@ -457,3 +457,4 @@ Tak natomiast wyglądała historia zmian Bogdana przed zrobieniem rebase'u.
 | 
 ```
 
+Cóż to by było na tyle jeśli chodzi o walke z konfliktami. Mam nadzieje że ten tutorial lepiej pomógł Ci zrozumieć to zgadnienie. Byłbym bardzo wdzięczny za informacje zwrotną odnośnie tego tutoriala i dodanie mnie do obserwujących żeby być na bierząco z kolejnymi. Dzięki i do zobaczenia ! 

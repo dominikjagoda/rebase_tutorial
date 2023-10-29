@@ -15,7 +15,10 @@ def multiply(a: float, b: float) -> float:
 
 def divide(a: float, b: float) -> float:
     """Divide the first number by the second. Returns an error message if the second number is zero."""
-    return a / b
+    if b == 0:
+        raise ZeroDivisionError("Division by zero is not allowed.")
+    result = a / b
+    return result
 
 
 def power(a: float, b: float) -> float:
@@ -24,5 +27,10 @@ def power(a: float, b: float) -> float:
 
 
 def square_root(a: float) -> float:
-    """Calculate the square root of a number."""
+    """
+    Return the square root of a non-negative number,
+    or an error message for negative input.
+    """
+    if a < 0:
+        raise ValueError("Cannot calculate the square root of a negative number.")
     return a**0.5

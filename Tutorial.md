@@ -328,16 +328,60 @@ I vula la ! To by było tyle jeśli chodzi o pratyczne rozwiązanie problemu. Je
 
 # Co kryje się pod komendą rebase
 
-Cofnijmy sie w czase do momentu konfliktu brancha Bogdan'a z branchem main na który została wysłana zmianna Anny.
-
-
-
-Przechodzimy na branch Bogdana w naszym lokalnym repozytorium 
+Cofnijmy sie w czase do momentu konfliktu brancha Bogdan'a z branchem `main` na który została wysłana zmianna Anny. Poniżej mamy ukazaną historie commitów na branchu `main` którą możemy wyświetlić tą komendą.
 
 ```bash
-git switch bogdan_calculator_bug_fix
+git log --graph --date=short
+```
+wynik:
+```bash
+*   commit 7e57dbb616c729219cbb49beaba30d06c3346357 (HEAD -> main, origin/main, origin/HEAD)
+|\  Merge: 6398b0a ee86445
+| | Author: Anna
+| | Date:   2023-10-28
+| | 
+| |     Merge pull request #8 from Anna/anna_code_refactoring
+| |     
+| |     ♻️ Refactored `calculator.py`
+| | 
+| * commit ee8644574aeb7163ca2389d5d438e55ebf0ab638 (origin/anna_code_refactoring)
+|/  Author: Anna
+|   Date:   2023-10-28
+|   
+|       ♻️ Refactored `calculator.py`
+| 
+* commit 6398b0aa3b7042ff5a26300cdbaa4d82b37c48df
+| Author: Admin Bob
+| Date:   2023-10-25
+| 
+|     ✨ Added `square_root()` function
+| 
+* commit 4abc1d16b85890cfb3d7c0a208f8f5143f6f2220
+```
+Czytając od dołu historia wygląda tak:
+1. Dawna zminan wprowadzona przez Bob'a ✨ Added `square_root()` function
+2. Dodanie commitu przez Anne ♻️ Refactored `calculator.py`
+3. Zmergowanie pull request'u #8 Anna/anna_code_refactoring co jest ostanią zmianą.
+
+
+Tak natomiast wyglądała historia zmian Bogdana przed zrobieniem rebase'u.
+
+```bash
+* commit 5c58f0bdca60dbb4db072d01260f3932e71c1623 (HEAD -> bogdan_calculator_bug_fix, origin/bogdan_calculator_bug_fix)
+| Author: Bogdan
+| Date:   2023-10-28
+|
+|     🐛 Fixed bugs in `calculator.py`
+|
+* commit 6398b0aa3b7042ff5a26300cdbaa4d82b37c48df
+| Author: Admin Bob
+| Date:   2023-10-28
+|
+|     ✨ Added `square_root()` function
+|
 ```
 
+ Widać od razu nieaktualność gałęzi ponieważ nie ma tutaj zmian Anny.
 
 
 

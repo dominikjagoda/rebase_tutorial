@@ -280,8 +280,9 @@ Unmerged paths:
   (use "git restore --staged <file>..." to unstage)
   (use "git add <file>..." to mark resolution)
         both modified:   src/calculator/calculator.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
 ```
-no changes added to commit (use "git add" and/or "git commit -a")```
 
 Jak widać w kategorii `Unmerged paths:` znajduje się nasz plik `calculator.py` więc dodajemy go do stagingu komendą `git add src/calculator/calculator.py` i uruchamiamy komende `git rebase --continue`. Wyskoczy nam oko podczas wykonywania komendy aby dodać dodaktową wiadomość ale możemy ja pominąć caciskająć `ctr+x`.
 
@@ -291,10 +292,10 @@ tsa dam mamy poprawnie wykonany rebase
  1 file changed, 10 insertions(+), 2 deletions(-)
 Successfully rebased and updated refs/heads/bogdan_calculator_bug_fix.
 ```
-No to co ? Pozsotąło nam zrboić git push i możmey iśc do domu ?
-No niestety nie xd
+No to co ? Pozsotąło nam zrboić `git push` i możmey iśc do domu ?
+Nooo niestety nie xd
 
-Wykonujemy git push
+Spróbujmy wkonać komnde `git push` z branch'a `bogdan_calculator_bug_fix`
 ```bash
 To https://github.com/dominikjagoda/rebase_tutorial.git
  ! [rejected]        bogdan_calculator_bug_fix -> bogdan_calculator_bug_fix (non-fast-forward)
@@ -304,9 +305,11 @@ hint: its remote counterpart. Integrate the remote changes (e.g.
 hint: 'git pull ...') before pushing again.
 hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 ```
-Probrem ten można rozwiązać na dwa sposoby 
+Pojawia sie problem typowy po wykonaniu `git rebase`. Ponieważ histora zmian na lokalnym branchu `bogdan_calculator_bug_fix` różni się od histori zmian na branchu `bogdan_calculator_bug_fix` w githubie. To co ? Znowu musimy rozwiązywać konflikt ? Drugi raz ? 
 
-1. Użycie `git push --force bogdan_calculator_bug_fix` po jej użyciu historia gałęzi na zdalnym repozytorium zostaje całkowicie zastąpiona historią z lokalnej gałęzi. Jest to operacja potencjalnie niebezpieczna, ponieważ może prowadzić do utraty danych na zdalnym repozytorium i wprowadzenia dezorganizacji, szczególnie w przypadku współpracy z innymi osobami. Dlatego git push --force powinno się stosować ostrożnie i tylko wtedy, gdy jesteś pewny, że nikt inny nie pracuje na zdalnej gałęzi, lub po wcześniejszym poinformowaniu współpracowników. W naszym przypadku nikt inny poza Bogdanem nie pracuje na tej gałęzi oraz nie jest to główna gałąź więc możemy to zrobić.
+Na szczęście nie, mamy do wyboru dwa poniższe najpopularniejsze rozwiązania. 
+
+1. Użycie `git push --force` po jej użyciu historia gałęzi na zdalnym repozytorium zostaje całkowicie zastąpiona historią z lokalnej gałęzi. Jest to operacja potencjalnie niebezpieczna, ponieważ może prowadzić do utraty danych na zdalnym repozytorium i wprowadzenia dezorganizacji, szczególnie w przypadku współpracy z innymi osobami. Dlatego git push --force powinno się stosować ostrożnie i tylko wtedy, gdy jesteś pewny, że nikt inny nie pracuje na zdalnej gałęzi, lub po wcześniejszym poinformowaniu współpracowników. W naszym przypadku nikt inny poza Bogdanem nie pracuje na tej gałęzi oraz nie jest to główna gałąź więc możemy to zrobić.
 
 
 2. Tworzenie Nowej Gałęzi i Merge: Zamiast nadpisywać historię gałęzi, możesz utworzyć nową gałąź na podstawie gałęzi po rebase. Następnie przeprowadź pull request tej nowej gałęzi do oryginalnej gałęzi. To zachowa historię i pozwoli innym na dostęp do poprzednich zmian. Na przykład:
@@ -315,6 +318,18 @@ git checkout bogdan_calculator_bug_fix
 git checkout -b bogdan_calculator_bug_fix_after_rebase
 git push --set-upstream origin bogdan_calculator_bug_fix_after_rebase
 ```
+
+## zdjęcie PR po push -force
+
+## zdjęcie PR po nowym branchu 
+
+I vula la ! To by było tyle jeśli chodzi o pratyczne rozwiązanie problemu. Jeśli nie skończyłeś jeszcze swoej kawy lub jeszcze jesteś głodny wiedzy zachęcam Cię do przeczytania ostatniej sekcji odnośnie działa komendy rebase. Uważam że dobrze jest wiedzieć co tak na prawde robią "pod spodem" komendy które wykonujem, ponieważ brak tej wiedzy w niektórych przypadkach może zaszkodzić naszemu repozytorium.  
+
+
+# Co kryje się pod komendą rebase
+
+Cofnijmy sie w czase do momentu konfliktu brancha Bogdan'a z branchem main na który została wysłana zmianna Anny.
+
 
 
 Przechodzimy na branch Bogdana w naszym lokalnym repozytorium 

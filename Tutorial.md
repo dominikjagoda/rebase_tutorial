@@ -382,24 +382,17 @@ Tak natomiast wyglądała historia zmian Bogdana przed zrobieniem rebase'u.
 ```
 
  Widać od razu nieaktualność gałęzi ponieważ nie ma tutaj zmian Anny. Właśnie to że Anna wprowadizła zmiany w tym samym miejscu co my i nasza historia commitów jest o nie nieaktualna spowodowało że git wykrył konflikt. 
+ 
+ Zobaczmy teraz jak wygląda historia commitów po wykoaniu `git rebase` na branch'u `bogdan_calculator_bug_fix`
 
-
-
-
-# Dokładny opis co sie stało
-gdy przejdziemy na branch main 
-
-```bash
-git switch main
-```
-wykonamy poniższą komende aby w jak najbardziej czytelny sposób ukazć aktualną strukture repozytorium 
-
-```bash
-git log --graph --date=short
-```
-wynikem powyższej komendy  będzie aktualny stan brancha main, jak widać zwiera się w nim commit anny 
-```bash
-*   commit 7e57dbb616c729219cbb49beaba30d06c3346357 (HEAD -> main, origin/main, origin/HEAD)
+ ```bash
+ * commit 705c6b48a3c920882f253ca5edf9f49e437ebb2e (HEAD -> bogdan_calculator_bug_fix, origin/bogdan_calculator_bug_fix)
+| Author: dominikjagoda <dominik.jagoda881@gmail.com>
+| Date:   2023-10-28
+| 
+|     🐛 Fixed bugs in `calculator.py`
+|   
+*   commit 7e57dbb616c729219cbb49beaba30d06c3346357
 |\  Merge: 6398b0a ee86445
 | | Author: dominikjagoda <74588679+dominikjagoda@users.noreply.github.com>
 | | Date:   2023-10-28
@@ -420,132 +413,47 @@ wynikem powyższej komendy  będzie aktualny stan brancha main, jak widać zwier
 | 
 |     ✨ Added `square_root()` function
 | 
-* commit 4abc1d16b85890cfb3d7c0a208f8f5143f6f2220
-```
-
-Jęsli przjdziemy do 
+ ```
+ Jak widać zmiany Bogdan'a zostały przeniesione na szczyt historii commitów z zachowaniem kolejności poprzednich. To jest duża zaleta używania `git rebase`, dzięki tej komendzie mamy zachowaną spójną,linową,czystą historie commitów. Poniżej można zobaczy historie po finalnym zmergowaniu zmian Bogdana
 
 ```bash
-* commit 5c58f0bdca60dbb4db072d01260f3932e71c1623 (HEAD -> bogdan_calculator_bug_fix, origin/bogdan_calculator_bug_fix)
-| Author: dominikjagoda <dominik.jagoda881@gmail.com>
-| Date:   2023-10-28
-|
-|     🐛 Fixed bugs in `calculator.py`
-|
+|  
+|   Merge pull request #9 from dominikjagoda/bogdan_calculator_bug_fix
+*   commit a0889f3959c2bd76e3bf9130a3a536db71fd519a (HEAD -> main, origin/main, origin/HEAD)
+|\  Merge: 7de122a 705c6b4
+| | Author: dominikjagoda <74588679+dominikjagoda@users.noreply.github.com>
+| | Date:   2023-10-29
+| | 
+| |     Merge pull request #9 from dominikjagoda/bogdan_calculator_bug_fix
+| |     
+| |     🐛 Fixed bugs in `calculator.py`
+| | 
+| * commit 705c6b48a3c920882f253ca5edf9f49e437ebb2e (origin/bogdan_calculator_bug_fix, bogdan_calculator_bug_fix)
+|/   Author: dominikjagoda <dominik.jagoda881@gmail.com>
+|    Date:   2023-10-28
+|    
+|    🐛 Fixed bugs in `calculator.py`
+|   
+*   commit 7e57dbb616c729219cbb49beaba30d06c3346357
+|\  Merge: 6398b0a ee86445
+| | Author: dominikjagoda <74588679+dominikjagoda@users.noreply.github.com>
+| | Date:   2023-10-28
+| | 
+| |     Merge pull request #8 from dominikjagoda/anna_code_refactoring
+| |     
+| |     ♻️ Refactored `calculator.py`
+| | 
+| * commit ee8644574aeb7163ca2389d5d438e55ebf0ab638 (origin/anna_code_refactoring)
+|/  Author: dominikjagoda <dominik.jagoda881@gmail.com>
+|   Date:   2023-10-28
+|   
+|       ♻️ Refactored `calculator.py`
+| 
 * commit 6398b0aa3b7042ff5a26300cdbaa4d82b37c48df
 | Author: dominikjagoda <dominik.jagoda881@gmail.com>
 | Date:   2023-10-28
-|
+| 
 |     ✨ Added `square_root()` function
-|
+| 
 ```
 
-```python
-def add(a: float, b: float) -> float:
-    """Add two numbers."""
-    return a + b
-
-
-def subtract(a: float, b: float) -> float:
-    """Subtract the second number from the first."""
-    return a - b
-
-
-def multiply(a: float, b: float) -> float:
-    """Multiply two numbers."""
-    return a * b
-
-
-<<<<<<< bogdan_calculator_bug_fix
-def divide(a, b):
-    """
-    Divide two numbers a by b.
-    """
-    if b == 0:
-        raise ZeroDivisionError("Division by zero is not allowed.")
-    result = a / b
-    return result
-=======
-def divide(a: float, b: float) -> float:
-    """Divide the first number by the second. Returns an error message if the second number is zero."""
-    return a / b
->>>>>>> main
-
-
-def power(a: float, b: float) -> float:
-    """Raise the first number to the power of the second."""
-    return a**b
-
-
-def square_root(a: float) -> float:
-<<<<<<< bogdan_calculator_bug_fix
-    """
-    Return the square root of a non-negative number,
-    or an error message for negative input.
-    """
-    if a < 0:
-        raise ValueError("Cannot calculate the square root of a negative number.")
-    return math.sqrt(a)
-=======
-    """Calculate the square root of a number."""
-    return a**0.5
->>>>>>> main
-
-```
-
-
-
-```
-form vim
-
-def add(a: float, b: float) -> float:
-    """Add two numbers."""
-    return a + b
-
-
-def subtract(a: float, b: float) -> float:
-    """Subtract the second number from the first."""
-    return a - b
-
-
-def multiply(a: float, b: float) -> float:
-    """Multiply two numbers."""
-    return a * b
-
-
-<<<<<<< HEAD
-def divide(a: float, b: float) -> float:
-    """Divide the first number by the second. Returns an error message if the second number is zero."""
-    return a / b
-=======
-def divide(a, b):
-    """
-    Divide two numbers a by b.
-    """
-    if b == 0:
-        raise ZeroDivisionError("Division by zero is not allowed.")
-    result = a / b
-    return result
->>>>>>> 5c58f0b (🐛 Fixed bugs in `calculator.py`)
-
-
-def power(a: float, b: float) -> float:
-    """Raise the first number to the power of the second."""
-    return a**b
-
-
-def square_root(a: float) -> float:
-<<<<<<< HEAD
-    """Calculate the square root of a number."""
-    return a**0.5
-=======
-    """
-    Return the square root of a non-negative number,
-    or an error message for negative input.
-    """
-    if a < 0:
-        raise ValueError("Cannot calculate the square root of a negative number.")
-    return math.sqrt(a)
->>>>>>> 5c58f0b (🐛 Fixed bugs in `calculator.py`)
-
-```

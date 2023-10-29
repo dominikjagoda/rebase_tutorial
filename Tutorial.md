@@ -6,7 +6,7 @@ Masz już kubek ulubionej kawy ?
 Nie ? 
 To przygotuj, ją i zaczymany 
 
-## Przedstawienie repozytorium
+## Przedstawienie przypadku 
 
 Naszym ćwiczebnym przykładem będzie a jakże orginalnie... kalkulator. Załużmy że mamy w zespole trzy osoby Dave'a, Anne i Bogdana (dzisiaj będziemy Bogdanem ). Dave jest naszym przełożonym i na planowaniu sprinu w poniedziałek wyznacza nam zadanie naprawienia buga dzielenia przez zero w funkcji `divide()` oraz pierwiastkowania licz ujemnych w funkcji `square_root()`. Zadaniem Anny natomiast jest refaktoryzacja kodu, dodanie brakujących docstringów itp. 
 
@@ -41,6 +41,8 @@ def square_root(a):
 
 Niestety w poniedziałek wieczorem zaczeliśmy czuć objawy prziębienia i we wtorek nie moglismy przyjść do pracy. Wracamy w środe pełni sił i zabieramy się za powieżone nam zadanie. W między czasie Anna wykonała swoje zadanie, utworzyła Pull Request i po code review Pull request został zmergowany do brancha `main`.
 
+## Konflikt
+
 ```python
 # calculator.py na branchu main po wprowadzeniu zmian przez Anne
 
@@ -74,21 +76,64 @@ def square_root(a: float) -> float:
     return a**0.5
 ```
 
-Jak widać Anna wykonała powieżone jej zadanie i na pierwszy rzut oka można nie zauważyć potęcjalnego konfliktu. Bogdan bieże się za prace i poprawia wskazene funkcje.
+Jak widać Anna wykonała powieżone jej zadanie i na pierwszy rzut oka można nie zauważyć potęcjalnego konfliktu. Bogdan bieże się za prace i poprawia wskazene funkcje. Poprawiliśmy kod, commitujemy nasze zmiany, pushujemy je do github'a i tworzymy Pull Request. Jednak naszym oczą ukazjuje się poniższy komunikat.
+
+zdjęcie PR
+
+```python
+# calculator.py na branchu bogdan_calculator_bug_fix po wprowadzeniu zmian przez Bogdana
+import math
+
+def add(a: float, b: float) -> float:
+    """Add two numbers."""
+    return a + b
 
 
-# zdjęcie PR
-
-Jest on spowodoany tym że Konflikt, zarówno w gałęzi "main" jak i w gałęzi "bogdan_calculator_bug_fix", które dotyczą tego samego fragmentu kodu. Git nie jest w stanie automatycznie połączyć tych zmian, ponieważ nie wie, które zmiany zachować, gdy one wzajemnie się wykluczają. Konieczne jest rozwiązanie konfliktu, aby zdecydować, które zmiany zostaną zachowane.
-
-więc bierzemy się do pracy
+def subtract(a: float, b: float) -> float:
+    """Subtract the second number from the first."""
+    return a - b
 
 
-skorzystamy z komendy git rebase ponieważ moim mniemanu bardziej pasuje do tej sytuacji. Jak mówi nam definicja `git rebase` jest zalecane, gdy chcesz utrzymać czystą i liniową historię zmian. Zamiast tworzyć nowy commit łączący, git rebase "przenosi" Twoje zmiany na szczyt gałęzi źródłowej, co sprawia, że historia jest bardziej spójna i klarowna. Jest to przydatne w przypadku prywatnych gałęzi, gdzie nie jest tak ważne śledzenie dokładnych źródeł zmian, ale chcesz utrzymać historię w przejrzysty sposób.  Może nie dla każdej osoby ta defincja jest prosta, dlatego wyjaśniam jej działanie po zakończeniu sekcji praktycznej w zakładce dokładny opis.
+def multiply(a: float, b: float) -> float:
+    """Multiply two numbers."""
+    return a * b
 
-# Praktyka
 
-Przechodzimy na branch main w repozytorium Bogdana i aktualizujemy go .
+def divide(a, b):
+    """
+    Divide two numbers a by b.
+    """
+    if b == 0:
+        raise ZeroDivisionError("Division by zero is not allowed.")
+    result = a / b
+    return result
+
+
+def power(a: float, b: float) -> float:
+    """Raise the first number to the power of the second."""
+    return a**b
+
+
+def square_root(a: float) -> float:
+    """
+    Return the square root of a non-negative number,
+    or an error message for negative input.
+    """
+    if a < 0:
+        raise ValueError("Cannot calculate the square root of a negative number.")
+    return math.sqrt(a)
+```
+
+Mamy konflikt z branchem `main`. Jest on spowodoany tym że zarówno w gałęzi `main` jak i w gałęzi `bogdan_calculator_bug_fix`, zmiany dotyczą tego samego fragmentu kodu i nasz branch nie zawierja commita Anny (Dokładniej zostanie to opisane w sekcji dla dociekliwych). Git nie jest w stanie automatycznie połączyć tych zmian, ponieważ nie wie, które zmiany zachować, gdyż się wzajemnie wykluczają. Konieczne jest rozwiązanie konfliktu, aby zdecydować, które zmiany zostaną zachowane.
+
+Więc, bierzemy się do pracy.
+
+
+Skorzystamy z komendy git rebase ponieważ moim zdaniem bardziej pasuje do tej sytuacji. Jak mówi nam definicja `git rebase` jest zalecane, gdy chcesz utrzymać czystą i liniową historię zmian. Zamiast tworzyć nowy commit łączący, git rebase "przenosi" Twoje zmiany na szczyt gałęzi źródłowej, co sprawia, że historia jest bardziej spójna i klarowna. Jest to przydatne w przypadku prywatnych gałęzi, gdzie nie jest tak ważne śledzenie dokładnych źródeł zmian, ale chcesz utrzymać historię w przejrzysty sposób.  Może nie dla każdej osoby ta defincja jest prosta, dlatego wyjaśniam jej działanie po zakończeniu sekcji praktycznej w zakładce dla dociekliwych.
+
+# Rozwiązywanie konfliktu
+
+Przechodzimy do terminala gdzie znajduje sie nasze loklane repozytroium na branch `main` i aktualizujemy go.
 
 ```bash
 git switch main && git pull origin main
@@ -116,7 +161,61 @@ hint: You can instead skip this commit: run "git rebase --skip".
 hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
 Could not apply 5c58f0b... 🐛 Fixed bugs in `calculator.py`
 ```
-Upss dalej mamy problem. Pomimo tego iż zastosowaliśmy rebase git dalej chce od nas jakiegoś złączenia konfliktów.
+Upss dalej mamy problem. Pomimo tego iż zastosowaliśmy rebase git dalej chce od nas jakiegoś złączenia konfliktów. O co chodzi przecież rebase miał rozwiązać problem ? Cóż nie zawsze sie to uda, ponieważ w tym przypadku mamy zmiany dokładnie w tym samym miejscu co Anna. Możemy to zobaczyć po otworzeniu pliku `src/calculator/calculator.py` w dowolnym edytorze tekstowym. Możecie użyć w zasadzie każdego, np vscode, vim'a (tylko musicie wiedzieć jak z niego później wyjść ;p), itp. Zawrtość pliku będzie wyglądać tak:
+
+```python
+def add(a: float, b: float) -> float:
+    """Add two numbers."""
+    return a + b
+
+
+def subtract(a: float, b: float) -> float:
+    """Subtract the second number from the first."""
+    return a - b
+
+
+def multiply(a: float, b: float) -> float:
+    """Multiply two numbers."""
+    return a * b
+
+
+<<<<<<< bogdan_calculator_bug_fix
+def divide(a, b):
+    """
+    Divide two numbers a by b.
+    """
+    if b == 0:
+        raise ZeroDivisionError("Division by zero is not allowed.")
+    result = a / b
+    return result
+=======
+def divide(a: float, b: float) -> float:
+    """Divide the first number by the second. Returns an error message if the second number is zero."""
+    return a / b
+>>>>>>> main
+
+
+def power(a: float, b: float) -> float:
+    """Raise the first number to the power of the second."""
+    return a**b
+
+
+def square_root(a: float) -> float:
+<<<<<<< bogdan_calculator_bug_fix
+    """
+    Return the square root of a non-negative number,
+    or an error message for negative input.
+    """
+    if a < 0:
+        raise ValueError("Cannot calculate the square root of a negative number.")
+    return math.sqrt(a)
+=======
+    """Calculate the square root of a number."""
+    return a**0.5
+>>>>>>> main
+
+```
+
 Otwieramy w dowolnym edytorze tekstowym plik src/calculator/calculator.py i dokonujemy w nim zmian.
 
 uruchamiamiy komende git status

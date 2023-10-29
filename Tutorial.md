@@ -381,7 +381,7 @@ Tak natomiast wyglądała historia zmian Bogdana przed zrobieniem rebase'u.
 |
 ```
 
- Widać od razu nieaktualność gałęzi ponieważ nie ma tutaj zmian Anny.
+ Widać od razu nieaktualność gałęzi ponieważ nie ma tutaj zmian Anny. Właśnie to że Anna wprowadizła zmiany w tym samym miejscu co my i nasza historia commitów jest o nie nieaktualna spowodowało że git wykrył konflikt. 
 
 
 

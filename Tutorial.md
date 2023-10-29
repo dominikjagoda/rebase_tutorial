@@ -161,9 +161,12 @@ hint: You can instead skip this commit: run "git rebase --skip".
 hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
 Could not apply 5c58f0b... 🐛 Fixed bugs in `calculator.py`
 ```
-Upss dalej mamy problem. Pomimo tego iż zastosowaliśmy rebase git dalej chce od nas jakiegoś złączenia konfliktów. O co chodzi przecież rebase miał rozwiązać problem ? Cóż nie zawsze sie to uda, ponieważ w tym przypadku mamy zmiany dokładnie w tym samym miejscu co Anna. Możemy to zobaczyć po otworzeniu pliku `src/calculator/calculator.py` w dowolnym edytorze tekstowym. Możecie użyć w zasadzie każdego, np vscode, vim'a (tylko musicie wiedzieć jak z niego później wyjść ;p), itp. Zawrtość pliku będzie wyglądać tak:
+Upss dalej mamy problem. Pomimo tego iż zastosowaliśmy rebase git dalej chce od nas jakiegoś złączenia konfliktów. O co chodzi przecież rebase miał rozwiązać problem ? Cóż nie zawsze sie to uda, ponieważ w tym przypadku mamy zmiany dokładnie w tym samym miejscu co Anna. Możemy to zobaczyć po otworzeniu pliku `src/calculator/calculator.py` w dowolnym edytorze tekstowym. Możecie użyć w zasadzie każdego, np vscode, vim'a (tylko musisz wiedzieć jak z niego później wyjść ;p), itp. Zawrtość pliku będzie wyglądać tak:
 
 ```python
+# calculator.py po wykonaniu komendy git rebase
+# Jak widać mamy pokazane różnice między branchami i musimy którąś wybrać lub je zmieszać
+
 def add(a: float, b: float) -> float:
     """Add two numbers."""
     return a + b
@@ -216,9 +219,52 @@ def square_root(a: float) -> float:
 
 ```
 
-Otwieramy w dowolnym edytorze tekstowym plik src/calculator/calculator.py i dokonujemy w nim zmian.
+Przed rozwiązaniem konfliktu ważne jest to aby sie skonsultować z autorem commitu w którym mamy problem. Może czegoś nie wiemy, może autor miał jakiś powód dlaczego dokonał zmiany w ten sposób warto zawsze porozmawiać. Załóżmy że porozmawialiśmy z Anna i doszliśmy do wniosku że zachowany naszą część kodu lecz pozostawimy sposób obliczania pierwiastka wymyślony przez Anna. 
 
-uruchamiamiy komende git status
+Otwieramy w dowolnym edytorze tekstowym plik `src/calculator/calculator.py` i dokonujemy w nim zmian.
+
+```python
+# calculator.py Po konsultacji z Anna 
+
+def add(a: float, b: float) -> float:
+    """Add two numbers."""
+    return a + b
+
+
+def subtract(a: float, b: float) -> float:
+    """Subtract the second number from the first."""
+    return a - b
+
+
+def multiply(a: float, b: float) -> float:
+    """Multiply two numbers."""
+    return a * b
+
+
+def divide(a: float, b: float) -> float:
+    """Divide the first number by the second. Returns an error message if the second number is zero."""
+    if b == 0:
+        raise ZeroDivisionError("Division by zero is not allowed.")
+    result = a / b
+    return result
+
+
+def power(a: float, b: float) -> float:
+    """Raise the first number to the power of the second."""
+    return a**b
+
+
+def square_root(a: float) -> float:
+    """
+    Return the square root of a non-negative number,
+    or an error message for negative input.
+    """
+    if a < 0:
+        raise ValueError("Cannot calculate the square root of a negative number.")
+    return a**0.5
+```
+
+Uruchamiamiy komende `git status` aby sprawdzić nasze zmiany.
 
 ```bash
 interactive rebase in progress; onto 7e57dbb
@@ -237,13 +283,7 @@ Unmerged paths:
 ```
 no changes added to commit (use "git add" and/or "git commit -a")```
 
-Dodajemy zmodyfikowany plik do stagingu git add src/calculator/calculator.py
-
-
-i uruchamiamy komende git rebase --continue
-
-
-wyskoczy nam oko podczas wykonywania komendy aby dodać dodaktową wiadomość ale możemy ja pominąć caciskająć ctr+x
+Jak widać w kategorii `Unmerged paths:` znajduje się nasz plik `calculator.py` więc dodajemy go do stagingu komendą `git add src/calculator/calculator.py` i uruchamiamy komende `git rebase --continue`. Wyskoczy nam oko podczas wykonywania komendy aby dodać dodaktową wiadomość ale możemy ja pominąć caciskająć `ctr+x`.
 
 tsa dam mamy poprawnie wykonany rebase 
 ```bash
